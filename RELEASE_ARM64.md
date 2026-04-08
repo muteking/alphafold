@@ -23,7 +23,7 @@ This is the **first official ARM64 (aarch64) build** of AlphaFold 2.3.2, enablin
 - **Docker**: 24.0+
 - **CUDA**: 12.8+ (included in base image)
 - **NVIDIA Container Toolkit**: Required for GPU support
-![AlphaFold ARM64 Build Snapshot](https://raw.githubusercontent.com/muteking/alphafold/main/alphafold-dgx-spark-cuda12.8.png)
+![AlphaFold ARM64 Build Snapshot](https://raw.githubusercontent.com/muteking/alphafold/alphafold-dgx-spark-cuda12.8.png)
 ## 📊 Performance Highlights
 
 ### Build Time
