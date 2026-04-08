@@ -2,10 +2,10 @@
 
 本文档记录在 **Linux arm64** 系统上构建 AlphaFold 2 Docker 镜像的完整流程，适用于 GitHub 发布。
 
-**作者**: Jack W ang  
+**作者**: Jack Wang  
 **系统**: Linux arm64 (aarch64), NVIDIA GB10 GPU  
 **构建时间**: 2026-04-08  
-**基础镜像**: `nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`
+**基础镜像**: `nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`或者 `nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04`
 
 ---
 
@@ -13,7 +13,7 @@
 
 ### 硬件要求
 - **架构**: ARM64 (aarch64)
-- **GPU**: NVIDIA GPU (支持 CUDA 12.8)
+- **GPU**: NVIDIA GPU (CUDA 12.8 Cuda13.2下编译通过)
 - **内存**: 建议 32GB+
 - **磁盘**: 至少 3TB SSD (SSD 强烈推荐，用于数据库)
 
@@ -29,7 +29,7 @@
 ### 1. 克隆 AlphaFold 仓库
 
 ```bash
-git clone https://github.com/deepmind/alphafold.git
+git clone https://github.com/muteking/alphafold.git
 cd alphafold
 ```
 
@@ -38,7 +38,7 @@ cd alphafold
 使用 `docker/Dockerfile`，关键修改点：
 
 **ARM64 特定配置**：
-- 基础镜像：`nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`
+- 基础镜像：`nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`或 `nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04`
 - Miniforge ARM64 版本：`Miniforge3-Linux-aarch64.sh`
 - HH-suite ARM64 预编译包：`hhsuite-linux-arm64.tar.gz`
 
@@ -82,11 +82,14 @@ docker build --progress=plain \
 ```dockerfile
 # 阶段 1: 构建依赖
 FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04 AS builder
+或
+FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04 AS builder
+
 
 # 安装依赖...
 
 # 阶段 2: 运行环境
-FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
+FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04
 # 复制必要文件...
 ```
 
@@ -106,7 +109,7 @@ FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 
 **数据库结构**：
 ```
-/home/mutek/genedata/
+~/genedata/
 ├── bfd/           # ~1.8 TB
 ├── mgnify/        # ~120 GB
 ├── pdb70/         # ~56 GB
@@ -132,8 +135,8 @@ FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
 #!/bin/bash
 # test_alphafold.sh
 
-DOWNLOAD_DIR="/home/mutek/genedata"
-OUTPUT_DIR="/home/mutek/alphafold_output"
+DOWNLOAD_DIR="~/genedata"
+OUTPUT_DIR="~/alphafold/alphafold_output"
 
 # 等待数据库准备完成
 echo "等待 BFD 数据库解压完成..."
@@ -152,7 +155,7 @@ done
 
 # 运行 AlphaFold
 python3 docker/run_docker.py \
-    --fasta_paths=/home/mutek/test_protein.fasta \
+    --fasta_paths=~/alphafold/test_protein.fasta \
     --max_template_date=2022-01-01 \
     --model_preset=monomer \
     --db_preset=reduced_dbs \
@@ -166,8 +169,8 @@ python3 docker/run_docker.py \
 ```bash
 docker run --rm -it \
   --gpus all \
-  -v /home/mutek/genedata:/database \
-  -v /home/mutek/alphafold_output:/output \
+  -v ~/genedata:/database \
+  -v ~/alphafold_output:/output \
   alphafold:arm64-v2.3.2 \
   --fasta_paths=/database/test.fasta \
   --max_template_date=2022-01-01 \
@@ -184,10 +187,12 @@ docker run --rm -it \
 ### 1. GPU 不可用
 
 ```bash
-# 检查 GPU 是否可见
-docker run --rm --gpus all nvidia/cuda:12.8.0-base nvidia-smi
+# 检查 GPU 是否可见（根据你实际下载的镜像使用13.2或12.8版本）
+docker run --rm --gpus all nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04 nvidia-smi
+或者
+docker run --rm --gpus all nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04 nvidia-smi
 
-# 如果失败，检查 NVIDIA Container Toolkit
+# 如果失败，检查并下载NVIDIA Container Toolkit
 systemctl status nvidia-container-toolkit
 ```
 
@@ -306,7 +311,7 @@ docker run --rm --gpus all \
 
 ### 文档
 - [AlphaFold 官方文档](https://github.com/deepmind/alphafold)
-- [本文档](README_arm64.md)
+- [本文档](发布声明_ARM64.md)
 ```
 
 ### 4. 添加标签
