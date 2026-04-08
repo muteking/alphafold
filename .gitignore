@@ -27,5 +27,4 @@ docker/Dockerfile.bak
 Thumbs.db
 
 # Test outputs (optional - remove if you want to keep them)
-# test_protein.fasta
 # alphafold_output/
