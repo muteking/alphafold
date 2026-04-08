@@ -5,7 +5,7 @@
 This is the **ARM64 (aarch64) build** of AlphaFold 2.3.2, enabling protein structure prediction on DGX Spark - an ARM-based systems with NVIDIA GPUs.
 
 **Key Achievements**:
-- ✅ AlphaFold 2 on ARM64 architecture
+- ✅ AlphaFold 2 on ARM64 architecture(DGX Spark)
 - ✅ Building passed and docker image created on Linux ARM64 with NVIDIA GB10 GPU
 - ✅ Complete documentation and build guides
 - ✅ To be validated for usability.
