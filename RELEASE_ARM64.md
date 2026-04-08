@@ -188,7 +188,7 @@ sudo systemctl status nvidia-container-toolkit
 ## 📚 Documentation Links
 
 - [ARM64 Build Guide](README_arm64.md) - Complete build instructions
-- [Quick Test Guide](QUICK_TEST.md) - Testing and validation
+- [Quick Test Guide](快速测试.md) - Testing and validation (Chinese)
 - [Fork Declaration](FORK_DECLARATION.md) - Attribution and licensing
 - [Original AlphaFold](https://github.com/deepmind/alphafold) - DeepMind repository
 
