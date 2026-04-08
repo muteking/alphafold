@@ -1,0 +1,167 @@
+# AlphaFold 2 ARM64 - 快速测试指南
+
+## 🚀 快速开始
+
+### 1️⃣ 准备测试文件
+
+测试 FASTA 文件已创建：
+```bash
+/home/mutek/test_protein.fasta
+```
+
+测试脚本已创建：
+```bash
+/home/mutek/test_alphafold_arm64.sh
+```
+
+### 2️⃣ 运行测试
+
+```bash
+# 方式 1: 直接运行测试脚本（推荐）
+cd /home/mutek
+./test_alphafold_arm64.sh
+
+# 方式 2: 手动运行（完整命令）
+python3 /home/mutek/alphafold/docker/run_docker.py \
+    --fasta_paths=/home/mutek/test_protein.fasta \
+    --max_template_date=2022-01-01 \
+    --model_preset=monomer \
+    --db_preset=reduced_dbs \
+    --data_dir=/home/mutek/genedata \
+    --output_dir=/home/mutek/alphafold_output
+```
+
+### 3️⃣ 查看结果
+
+```bash
+# 列出输出文件
+ls -lh /home/mutek/alphafold_output/
+
+# 主要输出文件
+# - ranked_0.pdb     : 最佳结构预测 (查看用 PyMOL/Chimera)
+# - ranked_0.plddt   : 预测置信度评分
+# - aligned.msa      : MSA 对齐结果
+# - 470_7d65078a2f1504757337a9013448e2221f1f0292_affine.pkl
+```
+
+## 📋 完整参数说明
+
+```bash
+python3 docker/run_docker.py \
+  --fasta_paths=<FASTA 文件路径> \
+  --max_template_date=2022-01-01 \
+  --model_preset=monomer \
+  --db_preset=reduced_dbs \
+  --data_dir=/home/mutek/genedata \
+  --output_dir=/home/mutek/alphafold_output \
+  --num_multimer_predictions_per_model=1
+```
+
+### 参数详解
+
+| 参数 | 说明 | 示例 |
+|------|------|------|
+| `--fasta_paths` | 蛋白质序列 FASTA 文件 | `/home/mutek/test_protein.fasta` |
+| `--max_template_date` | 模板搜索截止日期 | `2022-01-01` |
+| `--model_preset` | 模型预设 | `monomer` / `monomer_casp14` / `multimer` |
+| `--db_preset` | 数据库预设 | `reduced_dbs` / `full_dbs` |
+| `--data_dir` | 数据库目录 | `/home/mutek/genedata` |
+| `--output_dir` | 输出目录 | `/home/mutek/alphafold_output` |
+| `--num_multimer_predictions_per_model` | 多聚体预测数量 | `1` / `4` / `10` |
+
+## 🧪 其他测试场景
+
+### 完整数据库模式（更精确）
+```bash
+python3 docker/run_docker.py \
+  --fasta_paths=/home/mutek/test_protein.fasta \
+  --max_template_date=2022-01-01 \
+  --model_preset=monomer \
+  --db_preset=full_dbs \
+  --data_dir=/home/mutek/genedata \
+  --output_dir=/home/mutek/alphafold_output
+```
+
+### 多聚体预测
+```bash
+python3 docker/run_docker.py \
+  --fasta_paths=/home/mutek/test_protein.fasta \
+  --max_template_date=2022-01-01 \
+  --model_preset=multimer \
+  --db_preset=reduced_dbs \
+  --data_dir=/home/mutek/genedata \
+  --output_dir=/home/mutek/alphafold_output \
+  --num_multimer_predictions_per_model=4
+```
+
+### 使用 PDB 模板
+```bash
+# 在 FASTA 中添加 PDB 信息
+# >TEST_Protein PDB:1abc
+# MA...
+
+python3 docker/run_docker.py \
+  --fasta_paths=/home/mutek/test_protein_with_pdb.fasta \
+  --max_template_date=2023-01-01 \
+  --model_preset=monomer \
+  --db_preset=reduced_dbs \
+  --data_dir=/home/mutek/genedata \
+  --output_dir=/home/mutek/alphafold_output
+```
+
+## ⏱️ 预计运行时间
+
+| 模式 | 数据库 | 时间 | 精度 |
+|------|--------|------|------|
+| 精简 | reduced_dbs | 5-15 分钟 | ⭐⭐⭐ |
+| 完整 | full_dbs | 30-60 分钟 | ⭐⭐⭐⭐⭐ |
+
+## 📊 测试验证清单
+
+- [ ] Docker 运行正常
+- [ ] GPU 访问正常 (`nvidia-smi`)
+- [ ] 数据库目录正确挂载
+- [ ] 输出目录有 `ranked_0.pdb` 文件
+- [ ] 没有错误日志
+
+## 🐛 常见问题
+
+### 错误：数据库文件不存在
+```bash
+# 下载精简数据库（快速）
+cd /home/mutek/alphafold
+./scripts/download_all_data.sh /home/mutek/genedata reduced_dbs
+
+# 下载完整数据库（慢，但更精确）
+./scripts/download_all_data.sh /home/mutek/genedata
+```
+
+### 错误：GPU 不可用
+```bash
+# 检查 GPU 访问
+docker run --rm --gpus all nvidia/cuda:12.8.0-base nvidia-smi
+
+# 如果没有输出，检查 NVIDIA Container Toolkit
+sudo systemctl status nvidia-container-toolkit
+```
+
+### 错误：内存不足
+```bash
+# 减少并行度
+export OMP_NUM_THREADS=1
+
+# 或使用精简数据库
+--db_preset=reduced_dbs
+```
+
+## 📚 参考资料
+
+- [AlphaFold 官方文档](https://github.com/deepmind/alphafold)
+- [ARM64 构建指南](README_arm64.md)
+- [FORK_DECLARATION.md](FORK_DECLARATION.md)
+
+---
+
+**测试脚本**: `/home/mutek/test_alphafold_arm64.sh`  
+**测试文件**: `/home/mutek/test_protein.fasta`  
+**运行时间**: 5-15 分钟（精简数据库）
