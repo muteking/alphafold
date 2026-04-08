@@ -129,7 +129,7 @@ FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04
 
 ## 📸 Build Snapshot
 
-![AlphaFold ARM64 Build Snapshot](alphafold-dgx-spark-cuda12.8.png)
+![AlphaFold ARM64 Build Snapshot](https://raw.githubusercontent.com/muteking/alphafold/main/alphafold-dgx-spark-cuda12.8.png)
 
 *AlphaFold 2 ARM64 running on NVIDIA GB10 (DGX Spark)*
 
