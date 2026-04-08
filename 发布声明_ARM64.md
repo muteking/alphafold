@@ -307,7 +307,7 @@ docker run --rm --gpus all \
 
 ### 文档
 - [AlphaFold 官方文档](https://github.com/deepmind/alphafold)
-- [本文档](README_arm64.md)
+- [本文档](发布声明_ARM64.md)
 ```
 
 ### 4. 添加标签
