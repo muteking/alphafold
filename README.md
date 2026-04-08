@@ -6,6 +6,16 @@ This package provides an implementation of the inference pipeline of AlphaFold
 v2. For simplicity, we refer to this model as AlphaFold throughout the rest of
 this document.
 
+> **⚠️ ARM64 Fork Notice**
+> 
+> This is a **fork of [DeepMind's AlphaFold](https://github.com/deepmind/alphafold)** with **ARM64 (aarch64) support**.
+> 
+> - **Original work**: DeepMind, Apache License 2.0
+> - **This fork**: ARM64 architecture adaptation
+> - **Full declaration**: See [FORK_DECLARATION.md](FORK_DECLARATION.md)
+> - **Build guide**: See [README_arm64.md](README_arm64.md)
+
+
 We also provide:
 
 1.  An implementation of AlphaFold-Multimer. This represents a work in progress
