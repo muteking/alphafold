@@ -1,0 +1,31 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# AlphaFold specific
+build.log
+alphafold-dgx-spark-cuda12.8.png
+docker/Dockerfile.bak
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test outputs (optional - remove if you want to keep them)
+# test_protein.fasta
+# alphafold_output/
