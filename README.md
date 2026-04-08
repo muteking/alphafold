@@ -11,7 +11,7 @@ this document.
 > This is a **fork of [DeepMind's AlphaFold](https://github.com/deepmind/alphafold)** with **ARM64 (aarch64) support**.
 > 
 > - **Original work**: DeepMind, Apache License 2.0
-> - **This fork**: ARM64 architecture adaptation
+> - **This fork**: ARM64 architecture adaptation(Image Build Completed On DGX Spark)
 > - **Full declaration**: See [FORK_DECLARATION.md](FORK_DECLARATION.md)
 > - **Build guide**: See [README_arm64.md](README_arm64.md)
 
@@ -95,7 +95,9 @@ Please follow these steps:
 1.  Check that AlphaFold will be able to use a GPU by running:
 
     ```bash
-    docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
+   docker run --rm --gpus all nvidia/cuda:13.2.0-cudnn-runtime-ubuntu24.04 nvidia-smi
+   or
+   docker run --rm --gpus all nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04 nvidia-smi
     ```
 
     The output of this command should show a list of your GPUs. If it doesn't,
