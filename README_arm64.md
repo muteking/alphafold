@@ -2,10 +2,10 @@
 
 本文档记录在 **Linux arm64** 系统上构建 AlphaFold 2 Docker 镜像的完整流程，适用于 GitHub 发布。
 
-**作者**: Jack W ang  
+**作者**: Jack Wang  
 **系统**: Linux arm64 (aarch64), NVIDIA GB10 GPU  
 **构建时间**: 2026-04-08  
-**基础镜像**: `nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`
+**基础镜像**: `nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04` `nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04`
 
 ---
 
@@ -13,7 +13,7 @@
 
 ### 硬件要求
 - **架构**: ARM64 (aarch64)
-- **GPU**: NVIDIA GPU (支持 CUDA 12.8)
+- **GPU**: NVIDIA GPU (CUDA 12.8 Cuda13.2下编译通过)
 - **内存**: 建议 32GB+
 - **磁盘**: 至少 3TB SSD (SSD 强烈推荐，用于数据库)
 
@@ -38,7 +38,7 @@ cd alphafold
 使用 `docker/Dockerfile`，关键修改点：
 
 **ARM64 特定配置**：
-- 基础镜像：`nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04`
+- 基础镜像：`nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04` `nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04`
 - Miniforge ARM64 版本：`Miniforge3-Linux-aarch64.sh`
 - HH-suite ARM64 预编译包：`hhsuite-linux-arm64.tar.gz`
 
@@ -184,8 +184,9 @@ docker run --rm -it \
 ### 1. GPU 不可用
 
 ```bash
-# 检查 GPU 是否可见
-docker run --rm --gpus all nvidia/cuda:12.8.0-base nvidia-smi
+# 检查 GPU 是否可见（根据你实际下载的镜像使用13.2或12.8版本）
+docker run --rm --gpus all nvidia/cuda:13.2.0-cudnn-runtime-ubuntu24.04 nvidia-smi
+docker run --rm --gpus all nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04 nvidia-smi
 
 # 如果失败，检查 NVIDIA Container Toolkit
 systemctl status nvidia-container-toolkit
