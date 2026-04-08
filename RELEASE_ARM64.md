@@ -2,13 +2,13 @@
 
 ## 🎉 What's New
 
-This is the **first official ARM64 (aarch64) build** of AlphaFold 2.3.2, enabling protein structure prediction on ARM-based systems with NVIDIA GPUs.
+This is the **ARM64 (aarch64) build** of AlphaFold 2.3.2, enabling protein structure prediction on DGX Spark - an ARM-based systems with NVIDIA GPUs.
 
 **Key Achievements**:
-- ✅ First fully functional AlphaFold 2 on ARM64 architecture
-- ✅ Tested and validated on Linux ARM64 with NVIDIA GB10 GPU
+- ✅ AlphaFold 2 on ARM64 architecture
+- ✅ Building passed and docker image created on Linux ARM64 with NVIDIA GB10 GPU
 - ✅ Complete documentation and build guides
-- ✅ Production-ready for research use
+- ✅ To be validated for usability.
 
 ## 🔧 System Requirements
 
@@ -26,17 +26,10 @@ This is the **first official ARM64 (aarch64) build** of AlphaFold 2.3.2, enablin
 ![AlphaFold ARM64 Build Snapshot](alphafold-dgx-spark-cuda12.8.png)
 ## 📊 Performance Highlights
 
-### Build Time
-- **x86_64**: ~30-40 minutes
-- **ARM64**: ~40-60 minutes
-- Difference: Minimal overhead on ARM
-
 ### Prediction Speed
-- **Small proteins** (<200 residues): 5-15 minutes
-- **Medium proteins** (200-400 residues): 15-30 minutes
-- **Large proteins** (>400 residues): 30-60 minutes
-
-*Note: Times based on reduced_dbs preset. Full databases take ~2-3x longer.*
+- **Small proteins** (<200 residues): don't know
+- **Medium proteins** (200-400 residues): don't know
+- **Large proteins** (>400 residues): don't know
 
 ## 🚀 Quick Start
 
@@ -129,7 +122,7 @@ FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04
 
 ## 📸 Build Snapshot
 
-![AlphaFold ARM64 Build Snapshot](https://raw.githubusercontent.com/muteking/alphafold/main/alphafold-dgx-spark-cuda12.8.png)
+![AlphaFold ARM64 Build Snapshot](alphafold-dgx-spark-cuda12.8.png)
 
 *AlphaFold 2 ARM64 running on NVIDIA GB10 (DGX Spark)*
 
