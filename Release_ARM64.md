@@ -163,7 +163,7 @@ When using this fork in publications, please cite:
 
 ```bash
 # Check GPU visibility
-docker run --rm --gpus all nvidia/cuda:12.8.0-base nvidia-smi
+docker run --rm --gpus all nvidia/cuda:13.2.0-cudnn-runtime-ubuntu24.04 nvidia-smi
 
 # If this fails, check NVIDIA Container Toolkit
 sudo systemctl status nvidia-container-toolkit
