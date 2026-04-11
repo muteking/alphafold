@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM nvidia/cuda:12.8.0-cudnn-devel-ubuntu24.04
+FROM nvidia/cuda:13.2.0-cudnn-devel-ubuntu24.04
 
 # Use bash to support string substitution.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
