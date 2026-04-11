@@ -63,7 +63,7 @@ RUN mkdir -p /opt/hhsuite \
 # Install other AlphaFold dependencies
 RUN pip install --upgrade pip --no-cache-dir \
     && pip install -r /app/alphafold/requirements.txt --no-cache-dir \
-    && pip install "jax[cuda12]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+    && pip install "jax[cuda13]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # Add SETUID bit to the ldconfig binary so that non-root users can run it.
 RUN chmod u+s /sbin/ldconfig.real
